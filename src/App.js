@@ -12,14 +12,15 @@ import SignOut from "./components/SignOut";
 const App = () => {
   // const [user, setUser] = useState('hello')
   const [user] = useAuthState(auth);
-  console.log(user);
+  // console.log(uid);
+  // console.log(user.uid);
 
   return (
     <div>
       {user ? (
         <div>
           <SignOut />
-          <FirstPage />
+          <FirstPage uid={user.uid}/>
         </div>
       ) : (
         <div className="sign-in-button">
