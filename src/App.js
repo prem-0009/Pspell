@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import FirstPage from "./components/FirstPage";
+import { signInWithGoogle } from "./firebase/config";
+import { Button, Stack } from "@mui/material";
+import { UserContext } from "./contexts/AuthContext";
 
-function App() {
+import { useAuthState } from "react-firebase-hooks/auth";
+
+import { auth } from "../src/firebase/config";
+import SignOut from "./components/SignOut";
+
+const App = () => {
+  // const [user, setUser] = useState('hello')
+  const [user] = useAuthState(auth);
+  console.log(user);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {user ? (
+        <div>
+          <SignOut />
+          <FirstPage />
+        </div>
+      ) : (
+        <div className="sign-in-button">
+          <h1>Spelling Fun</h1>
+
+          <Button variant="contained" size="medium" onClick={signInWithGoogle}>
+            sign in with Google
+          </Button>
+        </div>
+      )}
     </div>
   );
-}
+};
 
 export default App;

@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +35,77 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.gSearch {
+  border: 2px solid red;
+}
+
+splitScreen {
+  display: "flex";
+
+  flex-direction: "row";
+}
+topPane {
+  width: "50%";
+}
+bottomPane {
+  width: "50%";
+} */
+
+/* buttons */
+.buttons {
+  /* border: 2px solid red; */
+  /* margin-top: 80px; */
+  /* margin: auto; */
+  /* width: fit-content; */
+  /* display: grid;
+  grid-template-columns: 33% 33% 33%; */
+}
+
+.App {
+  /* display: flex;
+  flex-direction: column; */
+  /* border: 2px solid red; */
+  margin: auto;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  gap: 1rem;
+  margin-top: 10vh;
+}
+
+.search-cp {
+  margin: auto;
+  width: fit-content;
+}
+
+.top-buttons {
+  /* border: 2px solid yellowgreen; */
+  margin: auto;
+  /* position: absolute; */
+  /* margin-top: 20px; */
+}
+
+.middle-buttons {
+  margin-top: 30vh;
+}
+
+/* sign in button */
+.sign-in-button {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  margin-top: 40vh;
+}
+
+
+/* sign out button */
+.sign-out-button{
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px;
 }
