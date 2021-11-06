@@ -74,7 +74,7 @@ bottomPane {
   justify-content: center;
   align-content: center;
   gap: 1rem;
-  margin-top: 10vh;
+  margin-top: 5vh;
 }
 
 .search-cp {
@@ -90,7 +90,16 @@ bottomPane {
 }
 
 .middle-buttons {
-  margin-top: 30vh;
+  /* margin: auto; */
+  margin-top: 5vh;
+  /* border: 2px solid black; */
+  display: flex;
+  flex-direction: column;
+
+  /* flex-direction: columSn; */
+  /* justify-content: center;
+  text-align: center; */
+  
 }
 
 /* sign in button */
@@ -108,4 +117,16 @@ bottomPane {
   display: flex;
   justify-content: flex-end;
   margin: 10px;
+}
+
+/* words list */
+.list-words{
+  margin-top: 5vh;
+}
+
+/* error text area */
+.error-text-area{
+  
+  margin: auto;
+  margin-bottom: 5vh;
 }

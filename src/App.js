@@ -1,26 +1,23 @@
-import { useState } from "react";
 import FirstPage from "./components/FirstPage";
 import { signInWithGoogle } from "./firebase/config";
-import { Button, Stack } from "@mui/material";
-import { UserContext } from "./contexts/AuthContext";
+import { Button } from "@mui/material";
 
 import { useAuthState } from "react-firebase-hooks/auth";
 
 import { auth } from "../src/firebase/config";
 import SignOut from "./components/SignOut";
+import {CorrectList} from "./components/CorrectList";
 
 const App = () => {
-  // const [user, setUser] = useState('hello')
   const [user] = useAuthState(auth);
-  // console.log(uid);
-  // console.log(user.uid);
 
   return (
     <div>
       {user ? (
         <div>
           <SignOut />
-          <FirstPage uid={user.uid}/>
+          <FirstPage uid={user.uid} />
+          {/* <CorrectList/> */}
         </div>
       ) : (
         <div className="sign-in-button">

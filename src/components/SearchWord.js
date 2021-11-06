@@ -2,9 +2,14 @@ import React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 
-export const SearchWord = ({ newWords, handleChange, displayAlphabetsOnly }) => {
+export const SearchWord = ({
+  newWords,
+  handleChange,
+  displayAlphabetsOnly,
+  displayError
+}) => {
   return (
-    <div className='search-cp'>
+    <div className="search-cp">
       <Box
         component="form"
         sx={{
@@ -13,12 +18,24 @@ export const SearchWord = ({ newWords, handleChange, displayAlphabetsOnly }) => 
         noValidate
         autoComplete="off"
       >
-        <TextField
+        {/* <TextField
           id="filled-basic"
           label={displayAlphabetsOnly}
           variant="filled"
           value={newWords}
           onChange={(e) => handleChange(e)}
+        /> */}
+        <TextField
+        // error
+         
+          id="filled-error-helper-text"
+          // label="Error"
+          // defaultValue="write some word.."
+          value={newWords}
+          helperText={displayAlphabetsOnly}
+          variant="filled"
+          onChange={(e)=>handleChange(e)}
+          type='text'
         />
       </Box>
     </div>
