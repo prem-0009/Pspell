@@ -4,6 +4,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import Chip from "@mui/material/Chip";
 // import { IncorrectList } from "./IncorrectList";
 
 function TabPanel(props) {
@@ -40,31 +41,51 @@ function a11yProps(index) {
 }
 // -------------------------------------------------------------------start
 const CorrectList = ({ wordsList }) => {
-  const [value, setValue] = React.useState(0);
-//   console.log(wordsList);
+  const [selectedTab, setSelectedTab] = React.useState(0);
+  //   console.log(wordsList);
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    setSelectedTab(newValue);
+  };
+
+  //-----------------------------------------------------------------------delete chip
+  const handleDelete = () => {
+    console.info("You clicked the delete icon.");
   };
 
   useEffect(() => {
     console.log(wordsList);
-  }, [ ]);
+  }, []);
 
   return (
     <Box
       sx={{
         width: "98vw",
-        height: "68vh",
+        // height: "68vh",
         margin: "auto",
-        marginTop: "2vh",
+        // marginTop: "2vh",
+        // height:'25vh'
         // border:'2px solid black'
+        // position:'fixed'
       }}
     >
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+      <Box
+        sx={{
+          borderBottom: 1,
+          borderColor: "divider",
+          //   position: "fixed",
+          //   margin: "0",
+          width: "97%",
+          //   border: "2px solid black",
+          marginLeft: "2%",
+          //   zIndex: "1",
+          backgroundColor: "white",
+          //   marginBottom: "1vh",
+        }}
+      >
         <Tabs
           centered
-          value={value}
+          value={selectedTab}
           onChange={handleChange}
           aria-label="basic tabs example"
         >
@@ -72,27 +93,37 @@ const CorrectList = ({ wordsList }) => {
           <Tab label="INCORRECT" {...a11yProps(1)} />
         </Tabs>
       </Box>
-      <TabPanel value={value} index={0}>
-        {wordsList &&
-          wordsList.correct.map((item, i) => {
-            return (
-                
-                  <li key={i}>{item}</li>
-                
-            );
-          })}
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        {wordsList &&
-          wordsList.incorrect.map((item, i) => {
-            return (
-                
-                  <li key={i}>{item}</li>
-                
-            );
-          })}
-        
-      </TabPanel>
+
+      {/* ------------------------------------------------------------correct list */}
+      {selectedTab === 0 &&
+        wordsList &&
+        wordsList.correct.map((item, i) => {
+          return (
+            <Chip
+              label={item}
+              variant="outlined"
+              onDelete={handleDelete}
+              key={i}
+              color='success'
+              variant='outlined'
+            />
+          );
+        })}
+      {/* ------------------------------------------------------------incorrect list */}
+      {selectedTab === 1 &&
+        wordsList &&
+        wordsList.incorrect.map((item, i) => {
+          return (
+            <Chip
+              label={item}
+              variant="outlined"
+              onDelete={handleDelete}
+              key={i}
+              color='primary'
+              variant='outlined'
+            />
+          );
+        })}
     </Box>
   );
 };

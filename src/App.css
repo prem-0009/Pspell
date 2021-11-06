@@ -54,19 +54,8 @@ bottomPane {
 } */
 
 /* buttons */
-.buttons {
-  /* border: 2px solid red; */
-  /* margin-top: 80px; */
-  /* margin: auto; */
-  /* width: fit-content; */
-  /* display: grid;
-  grid-template-columns: 33% 33% 33%; */
-}
 
 .App {
-  /* display: flex;
-  flex-direction: column; */
-  /* border: 2px solid red; */
   margin: auto;
   width: fit-content;
   display: flex;
@@ -74,7 +63,7 @@ bottomPane {
   justify-content: center;
   align-content: center;
   gap: 1rem;
-  margin-top: 5vh;
+  /* margin-top: 5vh; */
 }
 
 .search-cp {
@@ -83,23 +72,8 @@ bottomPane {
 }
 
 .top-buttons {
-  /* border: 2px solid yellowgreen; */
+  border: 2px solid yellowgreen;
   margin: auto;
-  /* position: absolute; */
-  /* margin-top: 20px; */
-}
-
-.middle-buttons {
-  /* margin: auto; */
-  margin-top: 5vh;
-  /* border: 2px solid black; */
-  display: flex;
-  flex-direction: column;
-
-  /* flex-direction: columSn; */
-  /* justify-content: center;
-  text-align: center; */
-  
 }
 
 /* sign in button */
@@ -111,6 +85,12 @@ bottomPane {
   margin-top: 40vh;
 }
 
+.middle-buttons {
+  margin-top: 5vh;
+  /* border: 2px solid red; */
+  display: flex;
+  flex-direction: column;
+}
 
 /* sign out button */
 .sign-out-button{
@@ -121,12 +101,25 @@ bottomPane {
 
 /* words list */
 .list-words{
-  margin-top: 5vh;
+  /* margin-top: 2vh; */
+  /* margin-bottom: 2vh; */
+  /* height: 68vh; */
+  /* border: 2px solid black; */
+  /* margin-left: 1vw; */
+  /* overflow: hidden; */
+  display: flex;
+  flex-wrap: wrap;
 }
 
 /* error text area */
 .error-text-area{
   
-  margin: auto;
-  margin-bottom: 5vh;
+  /* margin: auto; */
+  /* margin-bottom: 5vh; */
+}
+
+li{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }

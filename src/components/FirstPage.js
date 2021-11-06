@@ -82,6 +82,8 @@ const FirstPage = ({ uid }) => {
 
       setDisplayAlphabetsOnly("alphabets only");
       //   alphabetsOnly();
+    } else if (newWords.length < 3) {
+      setDisplayAlphabetsOnly("more than 3 alphabets..");
     } else {
       const docRef = doc(db, "spell", uid);
       const docSnap = await getDoc(docRef);
@@ -110,6 +112,8 @@ const FirstPage = ({ uid }) => {
 
         setDisplayAlphabetsOnly("alphabets only");
         //     alphabetsOnly();
+      } else if (newWords.length < 3) {
+        setDisplayAlphabetsOnly("more than 3 alphabets..");
       } else {
         //if newWords.length < 2.. at least 3 and no white spaces
 
@@ -204,9 +208,11 @@ const FirstPage = ({ uid }) => {
           </Button>
         </Stack>
       </div>
-      <Suspense fallback={<div>...loading</div>}>
-        <CorrectList wordsList={wordsList} />
-      </Suspense>
+      <div className='list-words'>
+        <Suspense fallback={<div>...loading</div>}>
+          <CorrectList wordsList={wordsList} />
+        </Suspense>
+      </div>
     </div>
   );
 };
