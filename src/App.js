@@ -1,12 +1,9 @@
 import FirstPage from "./components/FirstPage";
 import { signInWithGoogle } from "./firebase/config";
 import { Button } from "@mui/material";
-
 import { useAuthState } from "react-firebase-hooks/auth";
-
 import { auth } from "../src/firebase/config";
 import SignOut from "./components/SignOut";
-import {CorrectList} from "./components/CorrectList";
 
 const App = () => {
   const [user] = useAuthState(auth);
@@ -17,7 +14,6 @@ const App = () => {
         <div>
           <SignOut />
           <FirstPage uid={user.uid} />
-          {/* <CorrectList/> */}
         </div>
       ) : (
         <div className="sign-in-button">

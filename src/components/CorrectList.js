@@ -1,11 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, lazy, Suspense } from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
-// import { IncorrectList } from "./IncorrectList";
+// import { Stack } from "@mui/material";
+import { db } from "../firebase/config";
+import {
+  //   getFirestore,
+  //   collection,
+  //   getDocs,
+  //   addDoc,
+  //   updateDoc,
+  doc,
+  setDoc,
+  getDoc,
+  deleteField,
+  updateDoc,
+  arrayRemove,
+  onSnapshot,
+} from "firebase/firestore";
+// /lite";
+// import {  ndoc as doc, onSnapshot } from "firebase/firestore";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -39,24 +56,55 @@ function a11yProps(index) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
-// -------------------------------------------------------------------start
-const CorrectList = ({ wordsList }) => {
+// --------------------------------------------------------------------------------start main
+const CorrectList = ({
+  wordsList,
+  setWordsList,
+  uid,
+  correctList,
+  incorrectList,
+  setIncorrectList,
+  setCorrectList,
+}) => {
   const [selectedTab, setSelectedTab] = React.useState(0);
-  //   console.log(wordsList);
+  
+  let newData = [];
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
 
-  //-----------------------------------------------------------------------delete chip
-  const handleDelete = () => {
-    console.info("You clicked the delete icon.");
+  //--------------------------------------------------------delete chip
+  const handleDeleteCorrect = async (toDelete) => {
+    const docRef = doc(db, "spell", uid);
+    // -------------to remove from firebase
+    await updateDoc(docRef, {
+      correct: arrayRemove(toDelete),
+    });
+    // ----------to remove from display
+    setCorrectList(correctList.filter((item) => item !== toDelete));
+    console.log(correctList);
   };
 
-  useEffect(() => {
-    console.log(wordsList);
-  }, []);
+  //--------------------------------------------------------delete chip
+  const handleDeleteIncorrect = async (toDelete) => {
+    const docRef = doc(db, "spell", uid);
 
+    await updateDoc(docRef, {
+      incorrect: arrayRemove(toDelete),
+    });
+
+    setIncorrectList(incorrectList.filter((item) => item !== toDelete));
+    console.log(incorrectList);
+  };
+
+  //--------------------------------------------------------useEffect
+  useEffect(() => {
+    console.log("newData", wordsList);
+    
+  }, [uid]);
+
+  //--------------------------------------------------------return
   return (
     <Box
       sx={{
@@ -95,32 +143,34 @@ const CorrectList = ({ wordsList }) => {
       </Box>
 
       {/* ------------------------------------------------------------correct list */}
-      {selectedTab === 0 &&
-        wordsList &&
-        wordsList.correct.map((item, i) => {
-          return (
-            <Chip
-              label={item}
-              variant="outlined"
-              onDelete={handleDelete}
-              key={i}
-              color='success'
-              variant='outlined'
-            />
-          );
-        })}
+      <Suspense fallback={<div>...loading</div>}>
+        {correctList &&
+          selectedTab === 0 &&
+          correctList.map((item, i) => {
+            return (
+              <Chip
+                label={item}
+                variant="outlined"
+                onDelete={() => handleDeleteCorrect(item)}
+                key={i}
+                color="success"
+                variant="outlined"
+              />
+            );
+          })}
+      </Suspense>
       {/* ------------------------------------------------------------incorrect list */}
-      {selectedTab === 1 &&
-        wordsList &&
-        wordsList.incorrect.map((item, i) => {
+      {incorrectList &&
+        selectedTab === 1 &&
+        incorrectList.map((item, i) => {
           return (
             <Chip
               label={item}
               variant="outlined"
-              onDelete={handleDelete}
+              onDelete={() => handleDeleteIncorrect(item)}
               key={i}
-              color='primary'
-              variant='outlined'
+              color="error"
+              variant="outlined"
             />
           );
         })}
