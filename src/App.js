@@ -7,12 +7,14 @@ import SignOut from "./components/SignOut";
 
 const App = () => {
   const [user] = useAuthState(auth);
+  // console.log(user.displayName);
+  
 
   return (
     <div>
       {user ? (
         <div>
-          <SignOut />
+          <SignOut displayName={user.displayName}/>
           <FirstPage uid={user.uid} />
         </div>
       ) : (

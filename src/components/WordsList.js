@@ -1,28 +1,12 @@
-import React, { useEffect, lazy, Suspense } from "react";
+import React, { Suspense } from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
-// import { Stack } from "@mui/material";
 import { db } from "../firebase/config";
-import {
-  //   getFirestore,
-  //   collection,
-  //   getDocs,
-  //   addDoc,
-  //   updateDoc,
-  doc,
-  setDoc,
-  getDoc,
-  deleteField,
-  updateDoc,
-  arrayRemove,
-  onSnapshot,
-} from "firebase/firestore";
-// /lite";
-// import {  ndoc as doc, onSnapshot } from "firebase/firestore";
+import { doc, updateDoc, arrayRemove } from "firebase/firestore";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -57,9 +41,7 @@ function a11yProps(index) {
   };
 }
 // --------------------------------------------------------------------------------start main
-const CorrectList = ({
-  wordsList,
-  setWordsList,
+const WordsList = ({
   uid,
   correctList,
   incorrectList,
@@ -67,8 +49,6 @@ const CorrectList = ({
   setCorrectList,
 }) => {
   const [selectedTab, setSelectedTab] = React.useState(0);
-  
-  let newData = [];
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
@@ -98,37 +78,21 @@ const CorrectList = ({
     console.log(incorrectList);
   };
 
-  //--------------------------------------------------------useEffect
-  useEffect(() => {
-    console.log("newData", wordsList);
-    
-  }, [uid]);
-
   //--------------------------------------------------------return
   return (
     <Box
       sx={{
         width: "98vw",
-        // height: "68vh",
         margin: "auto",
-        // marginTop: "2vh",
-        // height:'25vh'
-        // border:'2px solid black'
-        // position:'fixed'
       }}
     >
       <Box
         sx={{
           borderBottom: 1,
           borderColor: "divider",
-          //   position: "fixed",
-          //   margin: "0",
           width: "97%",
-          //   border: "2px solid black",
           marginLeft: "2%",
-          //   zIndex: "1",
           backgroundColor: "white",
-          //   marginBottom: "1vh",
         }}
       >
         <Tabs
@@ -138,7 +102,7 @@ const CorrectList = ({
           aria-label="basic tabs example"
         >
           <Tab label="CORRECT" {...a11yProps(0)} />
-          <Tab label="INCORRECT" {...a11yProps(1)} />
+          <Tab label="try again" {...a11yProps(1)} />
         </Tabs>
       </Box>
 
@@ -154,7 +118,6 @@ const CorrectList = ({
                 onDelete={() => handleDeleteCorrect(item)}
                 key={i}
                 color="success"
-                variant="outlined"
               />
             );
           })}
@@ -170,7 +133,6 @@ const CorrectList = ({
               onDelete={() => handleDeleteIncorrect(item)}
               key={i}
               color="error"
-              variant="outlined"
             />
           );
         })}
@@ -178,4 +140,4 @@ const CorrectList = ({
   );
 };
 
-export default CorrectList;
+export default WordsList;

@@ -2,26 +2,16 @@ import React, { useState, useEffect, lazy, Suspense, useRef } from "react";
 import { Button, Stack } from "@mui/material";
 import { SearchWord } from "../components/SearchWord";
 import { db } from "../firebase/config";
-import {
-  //   getFirestore,
-  //   collection,
-  //   getDocs,
-  //   addDoc,
-  updateDoc,
-  doc,
-  setDoc,
-  getDoc,
-  arrayUnion,
-  onSnapshot,
-  //   arrayRemove,
-} from "firebase/firestore";
-// /lite";
+import { updateDoc, doc, setDoc, getDoc, arrayUnion } from "firebase/firestore";
 import "../App.css";
-const CorrectList = lazy(() => import("./CorrectList"));
+import { alphabetsOnly } from "../hooks/useHooks";
+const WordsList = lazy(() => import("./WordsList"));
+
 //------------------------------------------------------------------------start main
 const FirstPage = ({ uid }) => {
   const [newWords, setNewWords] = useState("");
   const [alreadyThere, setAlreadyThere] = useState("");
+  // eslint-disable-next-line
   const [displayError, setDisplayError] = useState();
   const [wordsList, setWordsList] = useState();
   const [displayAlphabetsOnly, setDisplayAlphabetsOnly] = useState(
@@ -32,9 +22,7 @@ const FirstPage = ({ uid }) => {
   const wordsOnly = /^[a-zA-Z]+$/;
   // ----------------------------------------useRef
   const newIncorrectData = useRef();
-  const newData = useRef();
-
-  console.log(wordsList);
+  const newCorrectData = useRef();
 
   //------------------------------------------------------------------------start
   const handleChange = async (e) => {
@@ -56,10 +44,11 @@ const FirstPage = ({ uid }) => {
   const handlePlay = (e) => {
     if (!wordsOnly.test(newWords)) {
       setDisplayAlphabetsOnly("alphabets only");
+      alphabetsOnly();
     } else {
       const text = e.target.value;
-
       const utterance = new SpeechSynthesisUtterance(text);
+
       utterance.rate = 1;
       speechSynthesis.speak(utterance);
     }
@@ -70,15 +59,13 @@ const FirstPage = ({ uid }) => {
   const handleCorrect = async () => {
     if (!wordsOnly.test(newWords)) {
       setDisplayAlphabetsOnly("alphabets only");
+      alphabetsOnly();
     } else if (newWords.length < 3) {
       setDisplayAlphabetsOnly("more than 3 alphabets..");
     } else {
       const docRef = doc(db, "spell", uid);
       const docSnap = await getDoc(docRef);
       const userData = docSnap.data().correct;
-      const newCorrect = [...userData, newWords];
-
-      console.log(newCorrect);
 
       const dataToBeAdded = newWords;
 
@@ -89,7 +76,6 @@ const FirstPage = ({ uid }) => {
         correct: arrayUnion(dataToBeAdded),
       });
       //--------------------adding to local array correct for display without refresh
-
       setCorrectList([...correctList, newWords]);
     }
   };
@@ -99,17 +85,16 @@ const FirstPage = ({ uid }) => {
     try {
       if (!wordsOnly.test(newWords)) {
         setDisplayAlphabetsOnly("alphabets only");
+        alphabetsOnly();
       } else if (newWords.length < 3) {
         setDisplayAlphabetsOnly("more than 3 alphabets..");
       } else {
         const docRef = doc(db, "spell", uid);
         const docSnap = await getDoc(docRef);
         const userData = docSnap.data().incorrect;
-        //   console.log(userData);
 
         const dataToBeAdded = newWords;
         if (userData.includes(dataToBeAdded)) {
-          // console.log('already there');
           setAlreadyThere("already in the system");
         }
         //--------------------adding to incorrect array to firebase--------------------
@@ -128,9 +113,6 @@ const FirstPage = ({ uid }) => {
 
   //------------------------------------------------------------------------start
   useEffect(() => {
-    //get data firebase --works
-    console.log("useEffect firest page");
-
     try {
       const getInfo = async () => {
         const docRef = doc(db, "spell", uid);
@@ -145,12 +127,11 @@ const FirstPage = ({ uid }) => {
 
         // ----------------------------------------
         setWordsList({ ...userData });
-        console.log("userData", userData);
 
         // ----------------------------------------ref
-        newData.current = [...userData.correct];
-        setCorrectList([...newData.current]);
-        console.log("correctlist", correctList);
+        newCorrectData.current = [...userData.correct];
+        setCorrectList([...newCorrectData.current]);
+
         // ----------------------------------------ref
         newIncorrectData.current = [...userData.incorrect];
         setIncorrectList([...newIncorrectData.current]);
@@ -182,7 +163,6 @@ const FirstPage = ({ uid }) => {
             value={newWords}
             onClick={(e) => handlePlay(e)}
             size="large"
-            // sx={{width:'30px'}}
           >
             play{" "}
           </Button>
@@ -191,7 +171,6 @@ const FirstPage = ({ uid }) => {
             color="success"
             onClick={handleCorrect}
             size="medium"
-            // sx={width='30px'}
           >
             correct
           </Button>
@@ -200,24 +179,19 @@ const FirstPage = ({ uid }) => {
             color="error"
             onClick={handleInCorrect}
             size="medium"
-            // sx={{width:'50px'}}
           >
-            incorrect
+            try again
           </Button>
         </Stack>
       </div>
       <div className="list-words">
         <Suspense fallback={<div>...loading</div>}>
-          <CorrectList
-            wordsList={wordsList}
-            setWordsList={setWordsList}
+          <WordsList
             uid={uid}
-            newData={newData}
             correctList={correctList}
             incorrectList={incorrectList}
             setCorrectList={setCorrectList}
             setIncorrectList={setIncorrectList}
-            // snap={snap}
           />
         </Suspense>
       </div>
