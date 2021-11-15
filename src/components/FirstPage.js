@@ -69,14 +69,18 @@ const FirstPage = ({ uid }) => {
 
       const dataToBeAdded = newWords;
 
-      if (userData.includes(dataToBeAdded)) {
-        setAlreadyThere("already in the system");
-      }
+      // if (userData.includes(dataToBeAdded)) {
+      //   setAlreadyThere("already in the system");
+      // }
       await updateDoc(docRef, {
         correct: arrayUnion(dataToBeAdded),
       });
       //--------------------adding to local array correct for display without refresh
-      setCorrectList([...correctList, newWords]);
+      if (correctList.includes(newWords)) {
+        setDisplayAlphabetsOnly("already in the list");
+      } else {
+        setCorrectList([...correctList, newWords]);
+      }
     }
   };
   //------------------------------------------------------------------------start
@@ -101,10 +105,14 @@ const FirstPage = ({ uid }) => {
         await updateDoc(docRef, {
           incorrect: arrayUnion(dataToBeAdded),
         });
-        console.log(wordsList);
+        // console.log(wordsList);
         //--------------------adding to local array incorrect for display without refresh
 
-        setIncorrectList([...incorrectList, newWords]);
+        if (incorrectList.includes(newWords)) {
+          setDisplayAlphabetsOnly("already in the list");
+        } else {
+          setIncorrectList([...incorrectList, newWords]);
+        }
       }
     } catch (e) {
       console.log(e.message);
