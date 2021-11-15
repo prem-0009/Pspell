@@ -6,7 +6,6 @@ export const SearchWord = ({
   newWords,
   handleChange,
   displayAlphabetsOnly,
-  displayError,
 }) => {
   return (
     <div className="search-cp">

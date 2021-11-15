@@ -9,13 +9,7 @@ const firebaseConfig = {
   storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
-  // apiKey: "AIzaSyCp1lt--lZ6OB124J5dA3gi_VBn4hMNrx8",
-  // authDomain: "kids-spell-f0f85.firebaseapp.com",
-  // projectId: "kids-spell-f0f85",
-  // storageBucket: "kids-spell-f0f85.appspot.com",
-  // messagingSenderId: "740427382355",
-  // appId: "1:740427382355:web:13e567e0415b0a4f3910a6",
-};
+  };
 
 export const firebase = initializeApp(firebaseConfig);
 export const db = getFirestore(firebase);
