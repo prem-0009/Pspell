@@ -101,8 +101,8 @@ const WordsList = ({
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="CORRECT" {...a11yProps(0)} />
-          <Tab label="try again" {...a11yProps(1)} />
+          <Tab label="correct list" {...a11yProps(0)} />
+          <Tab label="incorrect list" {...a11yProps(1)} />
         </Tabs>
       </Box>
 

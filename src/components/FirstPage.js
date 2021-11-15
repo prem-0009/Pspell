@@ -98,9 +98,9 @@ const FirstPage = ({ uid }) => {
         const userData = docSnap.data().incorrect;
 
         const dataToBeAdded = newWords;
-        if (userData.includes(dataToBeAdded)) {
-          setAlreadyThere("already in the system");
-        }
+        // if (userData.includes(dataToBeAdded)) {
+        //   setAlreadyThere("already in the system");
+        // }
         //--------------------adding to incorrect array to firebase--------------------
         await updateDoc(docRef, {
           incorrect: arrayUnion(dataToBeAdded),
@@ -180,7 +180,7 @@ const FirstPage = ({ uid }) => {
             onClick={handleCorrect}
             size="medium"
           >
-            correct
+            add to correct
           </Button>
           <Button
             variant="outlined"
@@ -188,7 +188,7 @@ const FirstPage = ({ uid }) => {
             onClick={handleInCorrect}
             size="medium"
           >
-            try again
+            add to incorrect
           </Button>
         </Stack>
       </div>
