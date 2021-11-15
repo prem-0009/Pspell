@@ -75,7 +75,7 @@ const WordsList = ({
     });
 
     setIncorrectList(incorrectList.filter((item) => item !== toDelete));
-    console.log(incorrectList);
+    // console.log(incorrectList);
   };
 
   //--------------------------------------------------------return

@@ -76,7 +76,7 @@ const FirstPage = ({ uid }) => {
         correct: arrayUnion(dataToBeAdded),
       });
       //--------------------adding to local array correct for display without refresh
-      if (correctList.includes(newWords)) {
+      if (correctList.includes(newWords) || incorrectList.includes(newWords)) {
         setDisplayAlphabetsOnly("already in the list");
       } else {
         setCorrectList([...correctList, newWords]);
@@ -108,7 +108,7 @@ const FirstPage = ({ uid }) => {
         // console.log(wordsList);
         //--------------------adding to local array incorrect for display without refresh
 
-        if (incorrectList.includes(newWords)) {
+        if (incorrectList.includes(newWords) || correctList.includes(newWords)) {
           setDisplayAlphabetsOnly("already in the list");
         } else {
           setIncorrectList([...incorrectList, newWords]);
