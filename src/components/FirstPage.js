@@ -77,9 +77,10 @@ const FirstPage = ({ uid }) => {
         setDisplayAlphabetsOnly("already in the list");
       } else {
         setCorrectList([...correctList, newWords]);
-                await updateDoc(docRef, {
-                  correct: arrayUnion(dataToBeAdded),
-                });
+        await updateDoc(docRef, {
+          correct: arrayUnion(dataToBeAdded),
+        });
+        console.log('added in co..');
       }
     }
   };
@@ -104,14 +105,19 @@ const FirstPage = ({ uid }) => {
         //--------------------adding to incorrect array to firebase--------------------
         // console.log(wordsList);
         //--------------------adding to local array incorrect for display without refresh
-        
-        if (incorrectList.includes(newWords) || correctList.includes(newWords)) {
+
+        if (
+          incorrectList.includes(newWords) ||
+          correctList.includes(newWords)
+        ) {
           setDisplayAlphabetsOnly("already in the list");
         } else {
           setIncorrectList([...incorrectList, newWords]);
-                await updateDoc(docRef, {
-                  incorrect: arrayUnion(dataToBeAdded),
-                });
+          await updateDoc(docRef, {
+            incorrect: arrayUnion(dataToBeAdded),
+          });
+          console.log('added in in-c..');
+          
         }
       }
     } catch (e) {
