@@ -10,10 +10,10 @@ const WordsList = lazy(() => import("./WordsList"));
 //------------------------------------------------------------------------start main
 const FirstPage = ({ uid }) => {
   const [newWords, setNewWords] = useState("");
-  const [alreadyThere, setAlreadyThere] = useState("");
+  const [alreadyThere, ] = useState("");
   // eslint-disable-next-line
   const [displayError, setDisplayError] = useState();
-  const [wordsList, setWordsList] = useState();
+  const [wordsList, setWordsList] = useState(null);
   const [displayAlphabetsOnly, setDisplayAlphabetsOnly] = useState(
     "Type some words..."
   );
@@ -56,7 +56,9 @@ const FirstPage = ({ uid }) => {
 
   //------------------------------------------------------------------------start
 
-  const handleCorrect = async () => {
+  const handleAddOrNot = async (e) => {
+    console.log(e);
+    
     if (!wordsOnly.test(newWords)) {
       setDisplayAlphabetsOnly("alphabets only");
       alphabetsOnly();
@@ -64,8 +66,8 @@ const FirstPage = ({ uid }) => {
       setDisplayAlphabetsOnly("more than 3 alphabets..");
     } else {
       const docRef = doc(db, "spell", uid);
-      const docSnap = await getDoc(docRef);
-      const userData = docSnap.data().correct;
+      // const docSnap = await getDoc(docRef);
+      // const userData = docSnap.data().correct;
 
       const dataToBeAdded = newWords;
 
@@ -73,57 +75,31 @@ const FirstPage = ({ uid }) => {
       //   setAlreadyThere("already in the system");
       // }
       //--------------------adding to local array correct for display without refresh
-      if (correctList.includes(newWords) || incorrectList.includes(newWords)) {
-        setDisplayAlphabetsOnly("already in the list");
-      } else {
-        setCorrectList([...correctList, newWords]);
-        await updateDoc(docRef, {
-          correct: arrayUnion(dataToBeAdded),
-        });
-        console.log('added in co..');
-      }
+            if (correctList.includes(newWords) || incorrectList.includes(newWords)) {
+              setDisplayAlphabetsOnly("already in the list");
+            } else {
+              // console.log('in here');
+                if(e==='correct'){
+
+                  setCorrectList([...correctList, newWords]);
+                  await updateDoc(docRef, {
+                    correct: arrayUnion(dataToBeAdded),
+                  });
+                  // console.log('added in co..');
+                }
+                if(e==='incorrect'){
+                  setIncorrectList([...incorrectList, newWords]);
+                  await updateDoc(docRef, {
+                    incorrect: arrayUnion(dataToBeAdded),
+                  });
+                  // console.log('added in inco..');
+                }
+              
+            }
     }
   };
-  //------------------------------------------------------------------------start
 
-  const handleInCorrect = async () => {
-    try {
-      if (!wordsOnly.test(newWords)) {
-        setDisplayAlphabetsOnly("alphabets only");
-        alphabetsOnly();
-      } else if (newWords.length < 3) {
-        setDisplayAlphabetsOnly("more than 3 alphabets..");
-      } else {
-        const docRef = doc(db, "spell", uid);
-        const docSnap = await getDoc(docRef);
-        const userData = docSnap.data().incorrect;
-
-        const dataToBeAdded = newWords;
-        // if (userData.includes(dataToBeAdded)) {
-        //   setAlreadyThere("already in the system");
-        // }
-        //--------------------adding to incorrect array to firebase--------------------
-        // console.log(wordsList);
-        //--------------------adding to local array incorrect for display without refresh
-
-        if (
-          incorrectList.includes(newWords) ||
-          correctList.includes(newWords)
-        ) {
-          setDisplayAlphabetsOnly("already in the list");
-        } else {
-          setIncorrectList([...incorrectList, newWords]);
-          await updateDoc(docRef, {
-            incorrect: arrayUnion(dataToBeAdded),
-          });
-          console.log('added in in-c..');
-          
-        }
-      }
-    } catch (e) {
-      console.log(e.message);
-    }
-  };
+  
 
   //------------------------------------------------------------------------start
   useEffect(() => {
@@ -183,16 +159,18 @@ const FirstPage = ({ uid }) => {
           <Button
             variant="outlined"
             color="success"
-            onClick={handleCorrect}
+            onClick={()=>handleAddOrNot("correct")}
             size="medium"
-          >
+            value="correct"
+            >
             add to correct
           </Button>
           <Button
             variant="outlined"
             color="error"
-            onClick={handleInCorrect}
+            onClick={()=>handleAddOrNot('incorrect')}
             size="medium"
+            value="inCorrect"
           >
             add to incorrect
           </Button>
